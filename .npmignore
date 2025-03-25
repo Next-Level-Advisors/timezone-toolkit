@@ -1,0 +1,31 @@
+# Source files
+src/
+tsconfig.json
+.gitignore
+
+# Test files
+test-tools.ts
+test-mcp-server.js
+
+# Documentation files
+logo-description.md
+MARKETPLACE_SUBMISSION.md
+
+# Development files
+.vscode/
+.idea/
+.github/
+.git/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
