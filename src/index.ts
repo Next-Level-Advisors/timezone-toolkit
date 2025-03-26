@@ -197,14 +197,21 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     // Calculate time difference
     const timeDifference = getTimezoneDifference(fromTimezone, toTimezone);
 
+    const result = {
+      originalTime: dateTime.toISO() || '',
+      convertedTime: formatDateTime(convertedDateTime, format as 'short' | 'medium' | 'full'),
+      fromTimezone,
+      toTimezone,
+      timeDifference
+    };
+
     return {
-      toolResult: {
-        originalTime: dateTime.toISO() || '',
-        convertedTime: formatDateTime(convertedDateTime, format as 'short' | 'medium' | 'full'),
-        fromTimezone,
-        toTimezone,
-        timeDifference
-      }
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
     };
   }
 
@@ -233,12 +240,19 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     // Get UTC offset
     const utcOffset = now.toFormat('ZZ');
 
+    const result = {
+      currentTime: formatDateTime(now, format as 'short' | 'medium' | 'full'),
+      timezone: tz,
+      utcOffset
+    };
+
     return {
-      toolResult: {
-        currentTime: formatDateTime(now, format as 'short' | 'medium' | 'full'),
-        timezone: tz,
-        utcOffset
-      }
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
     };
   }
 
@@ -297,26 +311,33 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const sunset = DateTime.fromJSDate(sunTimes.sunset).setZone(timezone);
     const dayLengthMinutes = sunset.diff(sunrise, 'minutes').minutes;
 
+    const result = {
+      date: dateTime.toISODate() || '',
+      sunrise: formatTime(sunTimes.sunrise),
+      sunset: formatTime(sunTimes.sunset),
+      civilTwilight: {
+        dawn: formatTime(sunTimes.dawn),
+        dusk: formatTime(sunTimes.dusk)
+      },
+      nauticalTwilight: {
+        dawn: formatTime(sunTimes.nauticalDawn),
+        dusk: formatTime(sunTimes.nauticalDusk)
+      },
+      astronomicalTwilight: {
+        dawn: formatTime(sunTimes.nightEnd),
+        dusk: formatTime(sunTimes.night)
+      },
+      dayLength: `${Math.floor(dayLengthMinutes / 60)} hours ${Math.floor(dayLengthMinutes % 60)} minutes`,
+      timezone
+    };
+
     return {
-      toolResult: {
-        date: dateTime.toISODate() || '',
-        sunrise: formatTime(sunTimes.sunrise),
-        sunset: formatTime(sunTimes.sunset),
-        civilTwilight: {
-          dawn: formatTime(sunTimes.dawn),
-          dusk: formatTime(sunTimes.dusk)
-        },
-        nauticalTwilight: {
-          dawn: formatTime(sunTimes.nauticalDawn),
-          dusk: formatTime(sunTimes.nauticalDusk)
-        },
-        astronomicalTwilight: {
-          dawn: formatTime(sunTimes.nightEnd),
-          dusk: formatTime(sunTimes.night)
-        },
-        dayLength: `${Math.floor(dayLengthMinutes / 60)} hours ${Math.floor(dayLengthMinutes % 60)} minutes`,
-        timezone
-      }
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
     };
   }
 
@@ -380,14 +401,21 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     // We don't have latitude/longitude for moon phase calculation
     // so we'll skip the position calculation
 
+    const result = {
+      date: dateTime.toISODate() || '',
+      phase: moonIllumination.phase,
+      phaseName: phaseName,
+      illumination: moonIllumination.fraction,
+      timezone
+    };
+
     return {
-      toolResult: {
-        date: dateTime.toISODate() || '',
-        phase: moonIllumination.phase,
-        phaseName: phaseName,
-        illumination: moonIllumination.fraction,
-        timezone
-      }
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
     };
   }
 
@@ -434,18 +462,25 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const hours = Math.floor(Math.abs(diffMinutes) / 60);
     const minutes = Math.abs(diffMinutes) % 60;
 
+    const result = {
+      fromTimezone,
+      toTimezone,
+      timeDifference,
+      currentTimeFrom: fromTime,
+      currentTimeTo: toTime,
+      hoursDifference: hours,
+      minutesDifference: minutes,
+      totalMinutesDifference: Math.abs(diffMinutes),
+      direction: diffMinutes >= 0 ? 'ahead' : 'behind'
+    };
+
     return {
-      toolResult: {
-        fromTimezone,
-        toTimezone,
-        timeDifference,
-        currentTimeFrom: fromTime,
-        currentTimeTo: toTime,
-        hoursDifference: hours,
-        minutesDifference: minutes,
-        totalMinutesDifference: Math.abs(diffMinutes),
-        direction: diffMinutes >= 0 ? 'ahead' : 'behind'
-      }
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
     };
   }
 
@@ -519,12 +554,19 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
     });
 
+    const result = {
+      timezones: timezonesWithTime,
+      count: timezonesWithTime.length,
+      region: region || 'All'
+    };
+
     return {
-      toolResult: {
-        timezones: timezonesWithTime,
-        count: timezonesWithTime.length,
-        region: region || 'All'
-      }
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
     };
   }
 
@@ -589,28 +631,35 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const totalHours = Math.floor(diff.as('hours'));
     const totalDays = Math.floor(diff.as('days'));
 
-    return {
-      toolResult: {
-        title,
-        targetDate: targetDateTime.toISO() || '',
-        formattedTargetDate: targetDateTime.toLocaleString(DateTime.DATETIME_FULL),
-        currentDate: now.toISO() || '',
-        timezone,
-        isPast,
-        countdown: countdownText,
-        remaining: {
-          years: Math.floor(diffObj.years || 0),
-          months: Math.floor(diffObj.months || 0),
-          days: Math.floor(diffObj.days || 0),
-          hours: Math.floor(diffObj.hours || 0),
-          minutes: Math.floor(diffObj.minutes || 0),
-          seconds: Math.floor(diffObj.seconds || 0),
-          totalDays,
-          totalHours,
-          totalMinutes,
-          totalSeconds
-        }
+    const result = {
+      title,
+      targetDate: targetDateTime.toISO() || '',
+      formattedTargetDate: targetDateTime.toLocaleString(DateTime.DATETIME_FULL),
+      currentDate: now.toISO() || '',
+      timezone,
+      isPast,
+      countdown: countdownText,
+      remaining: {
+        years: Math.floor(diffObj.years || 0),
+        months: Math.floor(diffObj.months || 0),
+        days: Math.floor(diffObj.days || 0),
+        hours: Math.floor(diffObj.hours || 0),
+        minutes: Math.floor(diffObj.minutes || 0),
+        seconds: Math.floor(diffObj.seconds || 0),
+        totalDays,
+        totalHours,
+        totalMinutes,
+        totalSeconds
       }
+    };
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
     };
   }
 
@@ -713,17 +762,24 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     // Calculate calendar days (including weekends and holidays)
     const calendarDays = endDateTime.diff(startDateTime, 'days').days;
 
+    const result = {
+      startDate: startDateTime.toISODate() || '',
+      endDate: endDateTime.toISODate() || '',
+      businessDays,
+      calendarDays,
+      weekendDays: calendarDays - businessDays - (excludeHolidays ? usHolidays.length : 0),
+      holidaysExcluded: excludeHolidays ? usHolidays.length : 0,
+      timezone,
+      businessDatesIncluded: dates
+    };
+
     return {
-      toolResult: {
-        startDate: startDateTime.toISODate() || '',
-        endDate: endDateTime.toISODate() || '',
-        businessDays,
-        calendarDays,
-        weekendDays: calendarDays - businessDays - (excludeHolidays ? usHolidays.length : 0),
-        holidaysExcluded: excludeHolidays ? usHolidays.length : 0,
-        timezone,
-        businessDatesIncluded: dates
-      }
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
     };
   }
 
@@ -841,21 +897,28 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       throw new McpError(ErrorCode.InternalError, `Error formatting date: ${e.message}`);
     }
 
+    const result = {
+      originalDate: date,
+      parsedDate: dateTime.toISO() || '',
+      formattedDate,
+      formattedTime,
+      formattedDateTime,
+      dayOfWeek: dateTime.weekdayLong,
+      dayOfMonth: dateTime.day,
+      month: dateTime.monthLong,
+      year: dateTime.year,
+      timezone,
+      locale,
+      format
+    };
+
     return {
-      toolResult: {
-        originalDate: date,
-        parsedDate: dateTime.toISO() || '',
-        formattedDate,
-        formattedTime,
-        formattedDateTime,
-        dayOfWeek: dateTime.weekdayLong,
-        dayOfMonth: dateTime.day,
-        month: dateTime.monthLong,
-        year: dateTime.year,
-        timezone,
-        locale,
-        format
-      }
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(result, null, 2)
+        }
+      ]
     };
   }
 
