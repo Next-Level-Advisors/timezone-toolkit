@@ -1,62 +1,144 @@
-# TimezoneToolkit Installation Guide for AI Assistants
+# TimezoneToolkit MCP Server
 
-This guide provides step-by-step instructions for AI assistants like Cline to install and configure the TimezoneToolkit MCP server.
+An advanced MCP (Model Context Protocol) server providing comprehensive time and timezone tools with enhanced features beyond basic conversion.
+
+## Available Tools
+
+| Tool | Description |
+| ---- | ----------- |
+| convert_time | Convert a time from one timezone to another |
+| get_current_time | Get the current time in a specified timezone |
+| calculate_sunrise_sunset | Calculate sunrise, sunset, and twilight times for a specific location and date |
+| calculate_moon_phase | Calculate moon phase for a specific date |
+| calculate_timezone_difference | Calculate the time difference between two timezones |
+| list_timezones | List available IANA timezones, optionally filtered by region |
+| calculate_countdown | Calculate time remaining until a specific date/event |
+| calculate_business_days | Calculate business days between two dates (excluding weekends) |
+| format_date | Format a date in various styles |
 
 ## Prerequisites
 
-- Node.js 18.x or higher
-- npm 9.x or higher
-- Claude Desktop (latest version)
+Node.js LTS - The TimezoneToolkit MCP server requires Node.js LTS version to run properly.
 
-## Installation Steps
+## Setup
 
-### 1. Clone the Repository
+To run the TimezoneToolkit MCP server using Node.js npx, use the following command:
 
 ```bash
-git clone https://github.com/Cicatriiz/timezone-toolkit.git
-cd timezone-toolkit
+npx -y @cicatriz/timezone-toolkit@latest
 ```
 
-### 2. Install Dependencies
+## Installation
 
-```bash
-npm install
-```
+### Cursor
 
-### 3. Build the Project
+To add this server to Cursor IDE:
 
-```bash
-npm run build
-```
-
-### 4. Configure Claude Desktop
-
-Add the TimezoneToolkit to Claude Desktop's configuration file. The configuration file is typically located at:
-
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-- Linux: `~/.config/Claude/claude_desktop_config.json`
-
-If the file doesn't exist, create it with the following content:
+1. Go to Cursor Settings > MCP
+2. Click + Add new Global MCP Server
+3. Add the following configuration to your global `.cursor/mcp.json` file:
 
 ```json
 {
   "mcpServers": {
-    "TimezoneToolkit": {
-      "command": "node",
+    "timezone-toolkit": {
+      "command": "npx",
       "args": [
-        "/ABSOLUTE/PATH/TO/timezone-toolkit/dist/index.js"
+        "-y",
+        "@cicatriz/timezone-toolkit"
       ]
     }
   }
 }
 ```
 
-Replace `/ABSOLUTE/PATH/TO/` with the actual absolute path to the timezone-toolkit directory.
+See the [Cursor documentation](https://cursor.sh/docs/mcp) for more details. Note: You can also add this to your project specific cursor configuration. (Supported in Cursor 0.46+)
 
-### 5. Restart Claude Desktop
+### Windsurf
 
-After configuring the MCP server, restart Claude Desktop to apply the changes.
+To set up MCP with Cascade, navigate to Windsurf - Settings > Advanced Settings or Command Palette > Open Windsurf Settings Page.
+
+Scroll down to the Cascade section and you will find the option to add a new server, view existing servers, and a button to view the raw JSON config file at mcp_config.json.
+
+Here you can click "Add custom server +" to add TimezoneToolkit MCP server directly in mcp_config.json.
+
+```json
+{
+  "mcpServers": {
+    "timezone-toolkit": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cicatriz/timezone-toolkit"
+      ]
+    }
+  }
+}
+```
+
+See the Windsurf documentation for more details.
+
+### Cline
+
+Add the following json manually to your cline_mcp_settings.json via Cline MCP Server setting.
+
+```json
+{
+  "mcpServers": {
+    "timezone-toolkit": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cicatriz/timezone-toolkit"
+      ]
+    }
+  }
+}
+```
+
+### Roo Code
+
+Access the MCP settings by clicking Edit MCP Settings in Roo Code settings or using the Roo Code: Open MCP Config command in VS Code's command palette.
+
+```json
+{
+  "mcpServers": {
+    "timezone-toolkit": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cicatriz/timezone-toolkit"
+      ]
+    }
+  }
+}
+```
+
+### Claude
+
+Add the following to your claude_desktop_config.json file. See the Claude Desktop documentation for more details.
+
+```json
+{
+  "mcpServers": {
+    "timezone-toolkit": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cicatriz/timezone-toolkit"
+      ]
+    }
+  }
+}
+```
+
+### CLI
+
+You can also run it as CLI by running the following command.
+
+```bash
+npx -y @cicatriz/timezone-toolkit@latest
+```
 
 ## Verification
 

@@ -10,12 +10,18 @@ test-mcp-server.js
 # Documentation files
 logo-description.md
 MARKETPLACE_SUBMISSION.md
+NPM_PUBLISHING.md
+publish-to-npm.sh
 
 # Development files
 .vscode/
 .idea/
 .github/
 .git/
+
+# API wrapper files
+api/
+server.js
 
 # Logs
 *.log

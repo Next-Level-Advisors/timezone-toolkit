@@ -4,6 +4,20 @@
   <p>An advanced MCP (Model Context Protocol) server providing comprehensive time and timezone tools with enhanced features beyond basic conversion.</p>
 </div>
 
+## Available Tools
+
+| Tool | Description |
+| ---- | ----------- |
+| convert_time | Convert a time from one timezone to another |
+| get_current_time | Get the current time in a specified timezone |
+| calculate_sunrise_sunset | Calculate sunrise, sunset, and twilight times for a specific location and date |
+| calculate_moon_phase | Calculate moon phase for a specific date |
+| calculate_timezone_difference | Calculate the time difference between two timezones |
+| list_timezones | List available IANA timezones, optionally filtered by region |
+| calculate_countdown | Calculate time remaining until a specific date/event |
+| calculate_business_days | Calculate business days between two dates (excluding weekends) |
+| format_date | Format a date in various styles |
+
 ## 🌟 Features
 
 ### 🕒 Basic Timezone Conversion
@@ -28,19 +42,140 @@
 ## 💻 Installation
 
 ### Prerequisites
-- Node.js 18.x or higher
-- npm 9.x or higher
-- [Claude Desktop](https://claude.ai/download) (latest version)
 
-### Option 1: One-Click Installation (Recommended)
+- Node.js 18.x or higher - The TimezoneToolkit MCP server requires Node.js 18+ to run properly.
 
-1. Open Claude Desktop
-2. Go to Settings > MCP Servers
-3. Click "Add from Marketplace"
-4. Search for "TimezoneToolkit"
-5. Click "Install"
+### Setup
 
-### Option 2: Manual Installation
+To run the TimezoneToolkit MCP server using Node.js npx, use the following command:
+
+```bash
+npx -y @cicatriz/timezone-toolkit@latest
+```
+
+### Client-Specific Installation
+
+#### Cursor
+
+To add this server to Cursor IDE:
+
+1. Go to Cursor Settings > MCP
+2. Click + Add new Global MCP Server
+3. Add the following configuration to your global `.cursor/mcp.json` file:
+
+```json
+{
+  "mcpServers": {
+    "timezone-toolkit": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cicatriz/timezone-toolkit"
+      ]
+    }
+  }
+}
+```
+
+See the [Cursor documentation](https://cursor.sh/docs/mcp) for more details.
+
+#### Windsurf
+
+To set up MCP with Cascade, navigate to Windsurf - Settings > Advanced Settings or Command Palette > Open Windsurf Settings Page.
+
+Scroll down to the Cascade section and add the TimezoneToolkit MCP server directly in `mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "timezone-toolkit": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cicatriz/timezone-toolkit"
+      ]
+    }
+  }
+}
+```
+
+#### Cline
+
+Add the following JSON manually to your `cline_mcp_settings.json` via Cline MCP Server setting:
+
+```json
+{
+  "mcpServers": {
+    "timezone-toolkit": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cicatriz/timezone-toolkit"
+      ]
+    }
+  }
+}
+```
+
+#### Roo Code
+
+Access the MCP settings by clicking Edit MCP Settings in Roo Code settings or using the Roo Code: Open MCP Config command in VS Code's command palette:
+
+```json
+{
+  "mcpServers": {
+    "timezone-toolkit": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cicatriz/timezone-toolkit"
+      ]
+    }
+  }
+}
+```
+
+#### Claude
+
+Add the following to your `claude_desktop_config.json` file:
+
+```json
+{
+  "mcpServers": {
+    "timezone-toolkit": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cicatriz/timezone-toolkit"
+      ]
+    }
+  }
+}
+```
+
+See the [Claude Desktop documentation](https://claude.ai/docs/mcp) for more details.
+
+#### CLI
+
+You can also run it as CLI by running the following command:
+
+```bash
+npx -y @cicatriz/timezone-toolkit@latest
+```
+
+### Alternative Installation Methods
+
+#### Install from npm
+
+```bash
+# Install globally from npm
+npm install -g @cicatriz/timezone-toolkit
+
+# Run the server
+timezone-toolkit
+```
+
+#### Manual Installation
 
 ```bash
 # Clone the repository
@@ -52,24 +187,10 @@ npm install
 
 # Build the project
 npm run build
+
+# Run the server
+node dist/index.js
 ```
-
-Then configure Claude Desktop to use the TimezoneToolkit server by editing the configuration file at `~/Library/Application Support/Claude/claude_desktop_config.json` (create it if it doesn't exist):
-
-```json
-{
-  "mcpServers": {
-    "TimezoneToolkit": {
-      "command": "node",
-      "args": [
-        "/ABSOLUTE/PATH/TO/timezone-toolkit/dist/index.js"
-      ]
-    }
-  }
-}
-```
-
-Replace `/ABSOLUTE/PATH/TO/` with the actual path to your project directory.
 
 ## 💬 Usage with Claude Desktop
 
@@ -79,6 +200,35 @@ After installation, you can use TimezoneToolkit with Claude Desktop:
 2. Start a new conversation
 3. Click the hammer icon to see available tools
 4. Select any of the TimezoneToolkit tools
+
+## 🔗 API Access
+
+TimezoneToolkit also provides a RESTful API for accessing its functionality without Claude Desktop:
+
+### Starting the API Server
+
+```bash
+# Using npm
+npm install -g @cicatriz/timezone-toolkit
+node server.js
+```
+
+The API server will be available at http://localhost:3000
+
+### API Endpoints
+
+- `GET /api/tools` - List all available tools
+- `POST /api/convert-time` - Convert time between timezones
+- `POST /api/current-time` - Get current time in a timezone
+- `POST /api/sunrise-sunset` - Calculate sunrise/sunset times
+- `POST /api/moon-phase` - Calculate moon phase
+- `POST /api/timezone-difference` - Calculate timezone difference
+- `POST /api/list-timezones` - List available timezones
+- `POST /api/countdown` - Calculate countdown to a date
+- `POST /api/business-days` - Calculate business days between dates
+- `POST /api/format-date` - Format a date
+
+For detailed API documentation, see the [API README](api/README.md).
 
 ### Example Queries
 
@@ -424,6 +574,7 @@ TimezoneToolkit is built using the Model Context Protocol (MCP) specification, w
 - **Core Services**: Implements timezone conversion, astronomical calculations, and date formatting
 - **MCP Server**: Handles JSON-RPC requests from Claude Desktop
 - **Utility Functions**: Provides helper functions for date/time operations
+- **Testing Framework**: Includes a comprehensive test script for verifying functionality
 
 ### Dependencies
 
@@ -446,6 +597,71 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+## 🧪 Testing
+
+TimezoneToolkit includes a comprehensive test script that can be used to verify the functionality of the MCP server. The test script can be used to test the local build, the version flag, list all available tools, test specific tools, and test the npm package after publishing.
+
+### Running Tests
+
+```bash
+# Test the local build (default)
+node test-server.js
+
+# Test a specific tool
+node test-server.js --tool=calculate_sunrise_sunset
+
+# List all available tools
+node test-server.js --list
+
+# Test the version flag
+node test-server.js --test-version
+
+# Test the published npm package (after publishing)
+node test-server.js --npm
+```
+
+The test script will output detailed information about the test results, including whether the response format is correct and whether the content is valid JSON.
+
+### Example Output
+
+```
+Testing local build...
+Running: node /path/to/timezone-toolkit/dist/index.js
+
+Sending request: {
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "get_current_time",
+    "arguments": {
+      "timezone": "America/New_York"
+    }
+  }
+}
+
+Response: {
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"currentTime\": \"Mar 25, 2025, 9:54 PM\",\n  \"timezone\": \"America/New_York\",\n  \"utcOffset\": \"-04:00\"\n}"
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 1
+}
+✅ Response format is correct (has content array)
+✅ Content is valid JSON: {
+  currentTime: 'Mar 25, 2025, 9:54 PM',
+  timezone: 'America/New_York',
+  utcOffset: '-04:00'
+}
+
+✅ Test completed successfully!
+```
 
 ## 🐛 Troubleshooting
 
