@@ -1,4 +1,5 @@
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { spawn } from 'child_process';
@@ -11,6 +12,15 @@ const __dirname = dirname(__filename);
 
 // Create Express app
 const app = express();
+
+// Set up rate limiter: maximum of 100 requests per 15 minutes
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+
+// Apply rate limiter to all requests
+app.use(limiter);
 const port = process.env.PORT || 3000;
 
 // Middleware
