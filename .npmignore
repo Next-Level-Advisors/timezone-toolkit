@@ -10,6 +10,7 @@ test-mcp-server.js
 # Documentation files
 logo-description.md
 MARKETPLACE_SUBMISSION.md
+NPM_PUBLISHING.md
 
 # Development files
 .vscode/
