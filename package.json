@@ -1,10 +1,13 @@
 {
-  "name": "timezone-toolkit",
+  "name": "@cicatriz/timezone-toolkit",
   "version": "1.0.0",
   "description": "Advanced MCP server providing comprehensive time and timezone tools",
   "main": "dist/index.js",
   "bin": {
     "timezone-toolkit": "./dist/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsc && node -e \"require('fs').chmodSync('dist/index.js', '755')\"",
@@ -12,7 +15,10 @@
     "dev": "node --loader ts-node/esm src/index.ts",
     "test": "node --loader ts-node/esm src/test.ts",
     "test-tools": "node --loader ts-node/esm src/test-tools.ts",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run test-tools",
+    "postversion": "git push && git push --tags",
+    "global-install": "npm i -g ."
   },
   "keywords": [
     "timezone",
@@ -23,7 +29,12 @@
     "sunset",
     "meeting",
     "scheduler",
-    "holiday"
+    "holiday",
+    "model-context-protocol",
+    "claude",
+    "cline",
+    "ai-tools",
+    "date-time"
   ],
   "author": "Cicatriz <thedawg100@gmail.com>",
   "license": "ISC",

@@ -17,6 +17,10 @@ MARKETPLACE_SUBMISSION.md
 .github/
 .git/
 
+# API wrapper files
+api/
+server.js
+
 # Logs
 *.log
 npm-debug.log*
