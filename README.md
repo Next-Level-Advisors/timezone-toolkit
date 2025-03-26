@@ -574,6 +574,7 @@ TimezoneToolkit is built using the Model Context Protocol (MCP) specification, w
 - **Core Services**: Implements timezone conversion, astronomical calculations, and date formatting
 - **MCP Server**: Handles JSON-RPC requests from Claude Desktop
 - **Utility Functions**: Provides helper functions for date/time operations
+- **Testing Framework**: Includes a comprehensive test script for verifying functionality
 
 ### Dependencies
 
@@ -596,6 +597,71 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+## 🧪 Testing
+
+TimezoneToolkit includes a comprehensive test script that can be used to verify the functionality of the MCP server. The test script can be used to test the local build, the version flag, list all available tools, test specific tools, and test the npm package after publishing.
+
+### Running Tests
+
+```bash
+# Test the local build (default)
+node test-server.js
+
+# Test a specific tool
+node test-server.js --tool=calculate_sunrise_sunset
+
+# List all available tools
+node test-server.js --list
+
+# Test the version flag
+node test-server.js --test-version
+
+# Test the published npm package (after publishing)
+node test-server.js --npm
+```
+
+The test script will output detailed information about the test results, including whether the response format is correct and whether the content is valid JSON.
+
+### Example Output
+
+```
+Testing local build...
+Running: node /path/to/timezone-toolkit/dist/index.js
+
+Sending request: {
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "get_current_time",
+    "arguments": {
+      "timezone": "America/New_York"
+    }
+  }
+}
+
+Response: {
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"currentTime\": \"Mar 25, 2025, 9:54 PM\",\n  \"timezone\": \"America/New_York\",\n  \"utcOffset\": \"-04:00\"\n}"
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": 1
+}
+✅ Response format is correct (has content array)
+✅ Content is valid JSON: {
+  currentTime: 'Mar 25, 2025, 9:54 PM',
+  timezone: 'America/New_York',
+  utcOffset: '-04:00'
+}
+
+✅ Test completed successfully!
+```
 
 ## 🐛 Troubleshooting
 
