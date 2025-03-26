@@ -475,9 +475,3 @@ ISC
 ## 👨‍💻 Author
 
 Cicatriz (thedawg100@gmail.com)
-
----
-
-<div align="center">
-  <p>Made with ❤️ for the Cline Marketplace</p>
-</div>
