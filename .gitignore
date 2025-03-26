@@ -54,3 +54,4 @@ coverage/
 
 # Qodo specific
 .qodo/
+.qodo
