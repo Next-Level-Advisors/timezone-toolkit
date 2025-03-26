@@ -7,6 +7,12 @@
  * with enhanced features beyond basic conversion.
  */
 
+// Handle version flag
+if (process.argv.includes('--version') || process.argv.includes('-v')) {
+  console.log('1.0.0');
+  process.exit(0);
+}
+
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
