@@ -37,6 +37,7 @@ Thumbs.db
 
 # Test files
 test-mcp-server.js
+test-rate-limit.js
 
 # Submission and documentation files
 logo-description.md

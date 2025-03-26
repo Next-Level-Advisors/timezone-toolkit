@@ -1,6 +1,6 @@
 {
   "name": "@cicatriz/timezone-toolkit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Advanced MCP server providing comprehensive time and timezone tools",
   "main": "dist/index.js",
   "bin": {
@@ -54,14 +54,15 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.7.0",
     "date-holidays": "^3.24.1",
+    "express-rate-limit": "^7.5.0",
     "luxon": "^3.6.0",
-    "suncalc": "^1.9.0",
-    "express-rate-limit": "^7.5.0"
+    "suncalc": "^1.9.0"
   },
   "devDependencies": {
     "@types/luxon": "^3.4.2",
     "@types/node": "^22.13.13",
     "@types/suncalc": "^1.9.2",
+    "node-fetch": "^3.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   }

@@ -9,7 +9,7 @@
 
 // Handle version flag
 if (process.argv.includes('--version') || process.argv.includes('-v')) {
-  console.log('1.0.0');
+  console.log('1.0.1');
   process.exit(0);
 }
 
