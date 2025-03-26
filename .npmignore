@@ -11,6 +11,7 @@ test-mcp-server.js
 logo-description.md
 MARKETPLACE_SUBMISSION.md
 NPM_PUBLISHING.md
+publish-to-npm.sh
 
 # Development files
 .vscode/
