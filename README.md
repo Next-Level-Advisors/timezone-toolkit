@@ -690,4 +690,4 @@ ISC
 
 ## 👨‍💻 Author
 
-Cicatriz (thedawg100@gmail.com)
+Cicatriz 
