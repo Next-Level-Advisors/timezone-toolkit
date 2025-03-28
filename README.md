@@ -77,7 +77,7 @@ To add this server to Cursor IDE:
 }
 ```
 
-See the [Cursor documentation](https://cursor.sh/docs/mcp) for more details.
+See the [Cursor documentation](https://docs.cursor.com/context/model-context-protocol#what-is-mcp) for more details.
 
 #### Windsurf
 
@@ -153,7 +153,7 @@ Add the following to your `claude_desktop_config.json` file:
 }
 ```
 
-See the [Claude Desktop documentation](https://claude.ai/docs/mcp) for more details.
+See the [Claude Desktop documentation](https://docs.anthropic.com/en/docs/agents-and-tools/mcp?q=MCP+) for more details.
 
 #### CLI
 
