@@ -68,4 +68,9 @@
    - **Root Cause**: Production npm ci was running prepare script again, but TypeScript not available in production
    - **Resolution**: Added --ignore-scripts flag to production npm ci and copy built files from builder
 
-**Next Steps**: User will retry Cloud Build with fixed production stage that skips scripts and uses pre-built files. 
+## Feature Requests & Enhancements
+1. **Custom Format Addition**: User requested HighLevel-compatible format (YYYY-MM-DD HH:MM:SS) for appointment creation
+   - **Implementation**: Added "drive" format option to all time conversion and formatting functions (renamed from "highlevel")
+   - **Format**: ISO8601 without "T" separator between date and time
+
+**Next Steps**: User will retry Cloud Build with fixed production stage and new "drive" format feature. 

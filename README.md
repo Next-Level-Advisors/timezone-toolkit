@@ -36,7 +36,7 @@
 ### 🕒 Basic Timezone Conversion
 - Convert times between any IANA timezone
 - Get current time in any timezone
-- Format time in various styles (short, medium, full)
+- Format time in various styles (short, medium, full, drive)
 - Calculate time differences in hours/minutes
 - List available IANA timezones
 
@@ -47,7 +47,7 @@
 - Calculate moon phases for any date
 
 ### 📅 Date and Time Utilities
-- Format dates in various styles (short, medium, full, ISO, relative)
+- Format dates in various styles (short, medium, full, ISO, relative, drive)
 - Calculate business days between dates
 - Create countdown timers to future events
 - Support for multiple locales and timezones
@@ -281,7 +281,7 @@ Converts a time from one timezone to another.
 - `time` (optional): Time to convert (ISO string or natural language). Defaults to current time if not provided.
 - `fromTimezone`: Source IANA timezone name (e.g., 'America/New_York')
 - `toTimezone`: Target IANA timezone name (e.g., 'Europe/London')
-- `format` (optional): Output format ('short', 'medium', 'full'). Defaults to 'medium'
+- `format` (optional): Output format ('short', 'medium', 'full', 'drive'). Defaults to 'medium'
 
 **Example:**
 ```json
@@ -310,7 +310,7 @@ Gets the current time in a specified timezone.
 
 **Parameters:**
 - `timezone`: IANA timezone name (e.g., 'Asia/Tokyo')
-- `format` (optional): Output format ('short', 'medium', 'full'). Defaults to 'medium'
+- `format` (optional): Output format ('short', 'medium', 'full', 'drive'). Defaults to 'medium'
 
 **Example:**
 ```json
@@ -549,7 +549,7 @@ Formats a date in various styles.
 **Parameters:**
 - `date`: Date to format (ISO string or natural language). Defaults to current date.
 - `timezone` (optional): IANA timezone name (e.g., 'America/New_York'). Defaults to system timezone.
-- `format` (optional): Output format ('short', 'medium', 'full', 'iso', 'relative'). Defaults to 'medium'.
+- `format` (optional): Output format ('short', 'medium', 'full', 'iso', 'relative', 'drive'). Defaults to 'medium'.
 - `locale` (optional): Locale for formatting (e.g., 'en-US', 'fr', 'de'). Defaults to 'en-US'.
 
 **Example:**
@@ -579,6 +579,33 @@ Formats a date in various styles.
   "format": "full"
 }
 ```
+
+### 6. "drive" (format_date and time conversions)
+
+Formats date and time for Drive/HighLevel appointment creation.
+
+**Parameters:**
+- `date`: Date to format
+- `timezone` (optional): IANA timezone name (e.g., 'America/New_York')
+- `format`: "drive"
+
+**Example:**
+```json
+{
+  "date": "2023-12-25T14:30:00",
+  "timezone": "America/New_York",
+  "format": "drive"
+}
+```
+
+**Response:**
+```json
+{
+  "formattedDateTime": "2023-12-25 14:30:00"
+}
+```
+
+**Use Case:** Perfect for Drive/HighLevel CRM appointment creation which requires `YYYY-MM-DD HH:MM:SS` format.
 
 ## 💬 Example Queries in Claude Desktop
 
@@ -720,6 +747,7 @@ TimezoneToolkit processes all data locally and does not send any information to 
 - **Production Readiness**: Implemented graceful shutdown handling
 - **Security**: Added non-root user in Docker container
 - **Rate Limiting**: Custom domain-based rate limiting (unlimited for nldrive.ai, nladv.com)
+- **Custom Format**: Added "drive" format (YYYY-MM-DD HH:MM:SS) for Drive/HighLevel appointments
 - **Documentation**: Updated with GCP project details (functions-440815)
 
 ### Version 1.0.0

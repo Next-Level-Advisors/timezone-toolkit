@@ -109,6 +109,18 @@ RUN npm ci --only=production --ignore-scripts  # Skip rebuild
 COPY --from=builder /app/dist ./dist/  # Copy built files
 ```
 
+### Feature Implementation: Custom Format
+**Request**: User needed HighLevel-compatible datetime format (YYYY-MM-DD HH:MM:SS) for appointment creation.
+**Solution**: Added "drive" format option to all datetime conversion and formatting functions.
+
+**Implementation Details**:
+- Updated `formatDateTime` utility function in `dateTimeUtils.ts`
+- Added enum values to all tool definitions in `index.ts` 
+- Updated format_date switch case to handle "drive" format
+- Used Luxon's `toFormat('yyyy-MM-dd HH:mm:ss')` for consistent formatting
+- Updated API documentation and examples
+
 ## Status
 ✅ **Ready for Deployment**: All critical deployment challenges addressed (including build issues)
+✅ **Custom Format Added**: "drive" format implemented for HighLevel appointments
 🔍 **Monitoring Required**: Production metrics will inform any needed optimizations 

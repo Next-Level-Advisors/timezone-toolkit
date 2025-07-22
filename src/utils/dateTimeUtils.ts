@@ -85,10 +85,10 @@ export function parseTime(timeStr?: string, timezone: string = 'UTC'): DateTime 
  * Formats a DateTime object according to the specified format
  *
  * @param dt Luxon DateTime object
- * @param format Format type: 'short', 'medium', or 'full'
+ * @param format Format type: 'short', 'medium', 'full', or 'drive'
  * @returns Formatted time string
  */
-export function formatDateTime(dt: DateTime, format: 'short' | 'medium' | 'full' = 'medium'): string {
+export function formatDateTime(dt: DateTime, format: 'short' | 'medium' | 'full' | 'drive' = 'medium'): string {
   switch (format) {
     case 'short':
       return dt.toLocaleString(DateTime.DATETIME_SHORT);
@@ -96,6 +96,8 @@ export function formatDateTime(dt: DateTime, format: 'short' | 'medium' | 'full'
       return dt.toLocaleString(DateTime.DATETIME_MED);
     case 'full':
       return dt.toLocaleString(DateTime.DATETIME_FULL);
+    case 'drive':
+      return dt.toFormat('yyyy-MM-dd HH:mm:ss');
     default:
       return dt.toLocaleString(DateTime.DATETIME_MED);
   }
