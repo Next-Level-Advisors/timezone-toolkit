@@ -55,4 +55,11 @@
 - **Custom Rate Limiting**: Implemented domain-based rate limiting exemptions checking Origin, Referer, and Host headers
 - **Documentation Updates**: Updated code-evaluation.md with rate limiting solution details
 
-**Next Steps**: User will push to GitHub and deploy to Cloud Run. Any errors will be addressed collaboratively. 
+## Deployment Issues & Resolutions
+1. **Build Error #1**: Dockerfile not found in repository
+   - **Resolution**: User pushed Dockerfile to GitHub
+2. **Build Error #2**: TypeScript compiler not found during Docker build  
+   - **Root Cause**: Builder stage installing only production dependencies, missing TypeScript
+   - **Resolution**: Fixed Dockerfile to install all dependencies in builder stage
+
+**Next Steps**: User will retry Cloud Build with fixed Dockerfile. Any further errors will be addressed collaboratively. 

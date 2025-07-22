@@ -1,0 +1,27 @@
+steps:
+  # Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/functions-440815/timezone-toolkit', '.']
+
+  # Push the image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/functions-440815/timezone-toolkit']
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'timezone-toolkit'
+      - '--image=gcr.io/functions-440815/timezone-toolkit'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--cpu=1'
+      - '--memory=512Mi'
+      - '--concurrency=30'
+      - '--set-env-vars=NODE_ENV=production'
+      - '--project=functions-440815'
+
+images:
+  - 'gcr.io/functions-440815/timezone-toolkit' 
