@@ -91,15 +91,22 @@ process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 - **Root Cause**: The `prepare` script in package.json runs `npm run build` during `npm ci`, but source files weren't copied yet.
 - **Solution**: Copy source files BEFORE running `npm ci` so the prepare script can find them.
 
+**Problem 3**: Production stage failing with "tsc: not found" error.
+- **Root Cause**: The `prepare` script runs again during production `npm ci`, but TypeScript is not installed in production.
+- **Solution**: Use `--ignore-scripts` flag in production stage and copy built files from builder stage.
+
 **Final Implementation**:
 ```dockerfile
-# Copy package files and source code first
+# Builder stage
 COPY package*.json ./
 COPY tsconfig.json ./
 COPY src/ ./src/
+RUN npm ci  # Builds via prepare script
 
-# Install dependencies (prepare script builds automatically)
-RUN npm ci
+# Production stage  
+COPY package*.json ./
+RUN npm ci --only=production --ignore-scripts  # Skip rebuild
+COPY --from=builder /app/dist ./dist/  # Copy built files
 ```
 
 ## Status

@@ -64,5 +64,8 @@
 3. **Build Error #3**: "No inputs were found" TypeScript compilation error
    - **Root Cause**: npm ci runs prepare script (which builds TypeScript) before source files are copied
    - **Resolution**: Reordered Dockerfile to copy source files before npm ci
+4. **Build Error #4**: Production stage "tsc: not found" error
+   - **Root Cause**: Production npm ci was running prepare script again, but TypeScript not available in production
+   - **Resolution**: Added --ignore-scripts flag to production npm ci and copy built files from builder
 
-**Next Steps**: User will retry Cloud Build with reordered Dockerfile operations. The prepare script should now find source files during npm install. 
+**Next Steps**: User will retry Cloud Build with fixed production stage that skips scripts and uses pre-built files. 
