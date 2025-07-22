@@ -36,14 +36,20 @@ export function parseTime(timeStr?: string, timezone: string = 'UTC'): DateTime 
     return DateTime.now().setZone(timezone).minus({ days: 1 }).startOf('day');
   }
 
-  // Try common date formats
+  // Try common date and datetime formats
   const formats = [
-    'yyyy-MM-dd',
-    'MM/dd/yyyy',
-    'dd/MM/yyyy',
-    'yyyy/MM/dd',
-    'MMMM d, yyyy',
-    'd MMMM yyyy',
+    'yyyy-MM-dd HH:mm:ss',  // Drive format (YYYY-MM-DD HH:MM:SS)
+    'yyyy-MM-dd HH:mm',     // Date with time (no seconds)
+    'yyyy-MM-dd',           // ISO date only
+    'MM/dd/yyyy HH:mm:ss',  // US format with time
+    'MM/dd/yyyy HH:mm',     // US format with time (no seconds)
+    'MM/dd/yyyy',           // US date only
+    'dd/MM/yyyy HH:mm:ss',  // European format with time
+    'dd/MM/yyyy HH:mm',     // European format with time (no seconds)
+    'dd/MM/yyyy',           // European date only
+    'yyyy/MM/dd',           // Alternative ISO format
+    'MMMM d, yyyy',         // Long date format
+    'd MMMM yyyy',          // Alternative long format
   ];
 
   for (const format of formats) {

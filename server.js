@@ -59,6 +59,9 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
+// Trust proxy for Cloud Run (fixes X-Forwarded-For header issue)
+app.set('trust proxy', true);
+
 // Path to the MCP server
 const mcpServerPath = process.env.MCP_SERVER_PATH || join(__dirname, 'dist', 'index.js');
 

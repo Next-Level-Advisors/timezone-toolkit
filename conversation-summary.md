@@ -73,4 +73,13 @@
    - **Implementation**: Added "drive" format option to all time conversion and formatting functions (renamed from "highlevel")
    - **Format**: ISO8601 without "T" separator between date and time
 
-**Next Steps**: User will retry Cloud Build with fixed production stage and new "drive" format feature. 
+## Production Issues & Fixes
+1. **Parse Error**: API couldn't parse "drive" format input (YYYY-MM-DD HH:MM:SS)
+   - **Error**: "Unable to parse time string: 2025-07-23 21:30:00, using current time instead"
+   - **Root Cause**: parseTime function didn't recognize the drive format for input parsing
+   - **Fix**: Added drive format and related datetime formats to parseTime function
+2. **Rate Limiting Error**: Express trust proxy misconfiguration in Cloud Run
+   - **Error**: X-Forwarded-For header warning
+   - **Fix**: Added `app.set('trust proxy', true)` for Cloud Run compatibility
+
+**Next Steps**: User will test the updated parsing and rate limiting fixes. 

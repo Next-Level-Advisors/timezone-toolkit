@@ -118,7 +118,10 @@ COPY --from=builder /app/dist ./dist/  # Copy built files
 - Added enum values to all tool definitions in `index.ts` 
 - Updated format_date switch case to handle "drive" format
 - Used Luxon's `toFormat('yyyy-MM-dd HH:mm:ss')` for consistent formatting
+- **CRITICAL FIX**: Added "drive" format parsing support to `parseTime` function
 - Updated API documentation and examples
+
+**Bug Fix**: The original implementation could output "drive" format but couldn't parse it back. Added support for parsing `YYYY-MM-DD HH:MM:SS` and related datetime formats.
 
 ## Status
 ✅ **Ready for Deployment**: All critical deployment challenges addressed (including build issues)
