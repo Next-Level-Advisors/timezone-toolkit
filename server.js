@@ -14,9 +14,41 @@ const __dirname = dirname(__filename);
 const app = express();
 
 // Set up rate limiter: maximum of 100 requests per 15 minutes
+// Exempt specific domains: nldrive.ai and nladv.com
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
+  skip: (req) => {
+    // Check Origin header
+    const origin = req.get('Origin');
+    if (origin) {
+      const hostname = new URL(origin).hostname;
+      if (hostname === 'nldrive.ai' || hostname === 'nladv.com') {
+        return true; // Skip rate limiting
+      }
+    }
+    
+    // Check Referer header as fallback
+    const referer = req.get('Referer');
+    if (referer) {
+      const hostname = new URL(referer).hostname;
+      if (hostname === 'nldrive.ai' || hostname === 'nladv.com') {
+        return true; // Skip rate limiting
+      }
+    }
+    
+    // Check Host header for direct API calls
+    const host = req.get('Host');
+    if (host === 'nldrive.ai' || host === 'nladv.com') {
+      return true; // Skip rate limiting
+    }
+    
+    return false; // Apply rate limiting
+  },
+  message: {
+    error: 'Too many requests from this IP, please try again later.',
+    retryAfter: '15 minutes'
+  }
 });
 
 // Apply rate limiter to all requests
@@ -246,13 +278,25 @@ app.post('/api/format-date', async (req, res) => {
   }
 });
 
+// Health check endpoint for Cloud Run
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    service: 'TimezoneToolkit API'
+  });
+});
+
 // Root route
 app.get('/', (req, res) => {
   res.json({
     name: 'TimezoneToolkit API',
-    version: '1.0.0',
+    version: '1.0.1',
     description: 'API wrapper for TimezoneToolkit MCP server',
+    gcpProject: 'functions-440815',
     endpoints: [
+      { method: 'GET', path: '/health', description: 'Health check endpoint' },
       { method: 'GET', path: '/api/tools', description: 'Get available tools' },
       { method: 'POST', path: '/api/convert-time', description: 'Convert time between timezones' },
       { method: 'POST', path: '/api/current-time', description: 'Get current time in a timezone' },
@@ -267,7 +311,21 @@ app.get('/', (req, res) => {
   });
 });
 
+// Graceful shutdown handling for Cloud Run
+const gracefulShutdown = (signal) => {
+  console.log(`Received ${signal}. Starting graceful shutdown...`);
+  server.close(() => {
+    console.log('Server closed. Exiting process.');
+    process.exit(0);
+  });
+};
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
 // Start the server
-app.listen(port, () => {
+const server = app.listen(port, '0.0.0.0', () => {
   console.log(`TimezoneToolkit API server listening on port ${port}`);
+  console.log(`GCP Project: functions-440815`);
+  console.log(`Health check available at http://localhost:${port}/health`);
 });

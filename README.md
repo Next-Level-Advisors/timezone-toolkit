@@ -4,6 +4,19 @@
   <p>An advanced MCP (Model Context Protocol) server providing comprehensive time and timezone tools with enhanced features beyond basic conversion.</p>
 </div>
 
+## 🚀 Google Cloud Platform Deployment
+
+**GCP Project**: `functions-440815`  
+**Service**: Cloud Run  
+**Current Version**: `1.0.1`
+
+### Development Environment Details:
+- **GCP Products**: Cloud Run, Container Registry
+- **Runtime**: Node.js 18.x
+- **Port**: 8080 (Cloud Run managed)
+- **Health Check**: `/health` endpoint
+- **Build**: Docker containerized
+
 ## Available Tools
 
 | Tool | Description |
@@ -208,15 +221,30 @@ TimezoneToolkit also provides a RESTful API for accessing its functionality with
 ### Starting the API Server
 
 ```bash
-# Using npm
-npm install -g @cicatriz/timezone-toolkit
+# Local development
+npm install
+npm run build
 node server.js
 ```
 
 The API server will be available at http://localhost:3000
 
+### Cloud Run Deployment
+
+This application is configured for Google Cloud Run deployment:
+
+```bash
+# Build and deploy (handled by CI/CD)
+docker build -t gcr.io/functions-440815/timezone-toolkit .
+docker push gcr.io/functions-440815/timezone-toolkit
+gcloud run deploy timezone-toolkit --image gcr.io/functions-440815/timezone-toolkit --project functions-440815
+```
+
+**Health Check**: Available at `/health` endpoint for Cloud Run monitoring.
+
 ### API Endpoints
 
+- `GET /health` - Health check endpoint (Cloud Run monitoring)
 - `GET /api/tools` - List all available tools
 - `POST /api/convert-time` - Convert time between timezones
 - `POST /api/current-time` - Get current time in a timezone
@@ -683,6 +711,21 @@ Response: {
 ## 🔒 Privacy & Security
 
 TimezoneToolkit processes all data locally and does not send any information to external servers. Your timezone data and queries remain private on your device.
+
+## 📝 Change Log
+
+### Version 1.0.1 (Current)
+- **Cloud Run Deployment**: Added Docker configuration and Cloud Run compatibility
+- **Health Monitoring**: Added `/health` endpoint for service monitoring
+- **Production Readiness**: Implemented graceful shutdown handling
+- **Security**: Added non-root user in Docker container
+- **Rate Limiting**: Custom domain-based rate limiting (unlimited for nldrive.ai, nladv.com)
+- **Documentation**: Updated with GCP project details (functions-440815)
+
+### Version 1.0.0
+- Initial release with MCP server and REST API functionality
+- 9 core timezone tools and comprehensive API endpoints
+- npm package publication
 
 ## 📃 License
 
