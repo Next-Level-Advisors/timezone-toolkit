@@ -61,5 +61,8 @@
 2. **Build Error #2**: TypeScript compiler not found during Docker build  
    - **Root Cause**: Builder stage installing only production dependencies, missing TypeScript
    - **Resolution**: Fixed Dockerfile to install all dependencies in builder stage
+3. **Build Error #3**: "No inputs were found" TypeScript compilation error
+   - **Root Cause**: npm ci runs prepare script (which builds TypeScript) before source files are copied
+   - **Resolution**: Reordered Dockerfile to copy source files before npm ci
 
-**Next Steps**: User will retry Cloud Build with fixed Dockerfile. Any further errors will be addressed collaboratively. 
+**Next Steps**: User will retry Cloud Build with reordered Dockerfile operations. The prepare script should now find source files during npm install. 

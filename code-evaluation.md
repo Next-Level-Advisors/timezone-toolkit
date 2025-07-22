@@ -82,21 +82,24 @@ process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 **Monitoring**: Watch resource utilization metrics
 **Solution**: Adjust Cloud Run service configuration as needed
 
-### Challenge 5: Docker Build - TypeScript Compilation
-**Problem**: Docker build failing with "tsc: not found" error during npm ci --only=production in builder stage.
+### Challenge 5: Docker Build - TypeScript Compilation Issues
+**Problem 1**: Docker build failing with "tsc: not found" error during npm ci --only=production in builder stage.
+- **Root Cause**: TypeScript compiler is a dev dependency but builder stage was only installing production dependencies.
+- **Solution**: Install all dependencies (including dev dependencies) in builder stage.
 
-**Root Cause**: TypeScript compiler is a dev dependency but builder stage was only installing production dependencies.
+**Problem 2**: Docker build failing with "No inputs were found in config file" TypeScript error.
+- **Root Cause**: The `prepare` script in package.json runs `npm run build` during `npm ci`, but source files weren't copied yet.
+- **Solution**: Copy source files BEFORE running `npm ci` so the prepare script can find them.
 
-**Solutions Attempted**:
-1. ✅ **Final Solution**: Install all dependencies (including dev dependencies) in builder stage, keep production-only in final stage.
-
-**Implementation**:
+**Final Implementation**:
 ```dockerfile
-# Builder stage - needs dev dependencies for compilation
-RUN npm ci
+# Copy package files and source code first
+COPY package*.json ./
+COPY tsconfig.json ./
+COPY src/ ./src/
 
-# Production stage - only needs runtime dependencies  
-RUN npm ci --only=production
+# Install dependencies (prepare script builds automatically)
+RUN npm ci
 ```
 
 ## Status

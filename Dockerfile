@@ -8,14 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 
+# Copy source code BEFORE installing dependencies
+COPY src/ ./src/
+
 # Install all dependencies (including dev dependencies needed for build)
 RUN npm ci
 
-# Copy source code
-COPY src/ ./src/
-
-# Build TypeScript
-RUN npm run build
+# Build is already handled by the prepare script during npm ci
 
 # Production stage
 FROM node:18-alpine AS production
