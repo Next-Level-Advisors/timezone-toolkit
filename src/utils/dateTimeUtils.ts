@@ -105,7 +105,7 @@ export function formatDateTime(dt: DateTime, format: 'short' | 'medium' | 'full'
     case 'drive':
       return dt.toFormat('yyyy-MM-dd HH:mm:ss');
     case 'appointment':
-      return dt.toISO();
+      return dt.toISO() || '';
     default:
       return dt.toLocaleString(DateTime.DATETIME_MED);
   }
