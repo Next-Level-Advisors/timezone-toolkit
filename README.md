@@ -281,7 +281,7 @@ Converts a time from one timezone to another.
 - `time` (optional): Time to convert (ISO string or natural language). Defaults to current time if not provided.
 - `fromTimezone`: Source IANA timezone name (e.g., 'America/New_York')
 - `toTimezone`: Target IANA timezone name (e.g., 'Europe/London')
-- `format` (optional): Output format ('short', 'medium', 'full', 'drive'). Defaults to 'medium'
+- `format` (optional): Output format ('short', 'medium', 'full', 'drive', 'appointment'). Defaults to 'medium'
 
 **Example:**
 ```json

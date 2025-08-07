@@ -94,7 +94,7 @@ export function parseTime(timeStr?: string, timezone: string = 'UTC'): DateTime 
  * @param format Format type: 'short', 'medium', 'full', or 'drive'
  * @returns Formatted time string
  */
-export function formatDateTime(dt: DateTime, format: 'short' | 'medium' | 'full' | 'drive' = 'medium'): string {
+export function formatDateTime(dt: DateTime, format: 'short' | 'medium' | 'full' | 'drive' | 'appointment' = 'medium'): string {
   switch (format) {
     case 'short':
       return dt.toLocaleString(DateTime.DATETIME_SHORT);
@@ -104,6 +104,8 @@ export function formatDateTime(dt: DateTime, format: 'short' | 'medium' | 'full'
       return dt.toLocaleString(DateTime.DATETIME_FULL);
     case 'drive':
       return dt.toFormat('yyyy-MM-dd HH:mm:ss');
+    case 'appointment':
+      return dt.toISO();
     default:
       return dt.toLocaleString(DateTime.DATETIME_MED);
   }

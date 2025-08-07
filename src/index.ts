@@ -48,7 +48,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             time: { type: "string", description: "Time to convert (ISO string or natural language). Defaults to current time if not provided." },
             fromTimezone: { type: "string", description: "Source IANA timezone name (e.g., 'America/New_York')" },
             toTimezone: { type: "string", description: "Target IANA timezone name (e.g., 'Europe/London')" },
-            format: { type: "string", enum: ["short", "medium", "full", "drive"], description: "Output format. Defaults to 'medium'" }
+            format: { type: "string", enum: ["short", "medium", "full", "drive", "appointment"], description: "Output format. Defaults to 'medium'" }
           },
           required: ["fromTimezone", "toTimezone"]
         }
@@ -205,7 +205,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     const result = {
       originalTime: dateTime.toISO() || '',
-      convertedTime: formatDateTime(convertedDateTime, format as 'short' | 'medium' | 'full'),
+      convertedTime: formatDateTime(convertedDateTime, format as 'short' | 'medium' | 'full' | 'drive' | 'appointment'),
       fromTimezone,
       toTimezone,
       timeDifference
