@@ -61,7 +61,7 @@
 | `full`        | `Tuesday, December 26, 2023, 4:30:00 AM PST`             |
 | `drive`       | `2023-12-25 14:30:00`                                    |
 | `appointment` | `2023-12-25T14:30:00.000-05:00` (ISO 8601)                |
-| `data`        | `2025-10-22T01:30:00Z` (ISO 8601 UTC)                    |
+| `data`        | `2025-10-22 01:30:00+00:00` (NocoDB datetime)            |
 
 ## 💻 Installation
 

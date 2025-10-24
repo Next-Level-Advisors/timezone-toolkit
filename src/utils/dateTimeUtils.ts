@@ -107,7 +107,7 @@ export function formatDateTime(dt: DateTime, format: 'short' | 'medium' | 'full'
     case 'appointment':
       return dt.toISO() || '';
     case 'data':
-      return dt.toUTC().toFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+      return dt.toUTC().toFormat('yyyy-MM-dd HH:mm:ssZZ');
     default:
       return dt.toLocaleString(DateTime.DATETIME_MED);
   }
