@@ -1,0 +1,94 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  annotations:
+    run.googleapis.com/client-name: gcloud
+    run.googleapis.com/client-version: 533.0.0
+    run.googleapis.com/ingress: all
+    run.googleapis.com/ingress-status: all
+    run.googleapis.com/maxScale: '5'
+    run.googleapis.com/operation-id: 61e66318-8db3-426d-945b-91c74c181c8d
+    run.googleapis.com/urls: '["https://timezone-toolkit-197777232624.us-central1.run.app","https://timezone-toolkit-qb3g74n64a-uc.a.run.app"]'
+    serving.knative.dev/creator: james@nladv.com
+    serving.knative.dev/lastModifier: 197777232624-compute@developer.gserviceaccount.com
+  creationTimestamp: '2025-07-22T17:27:15.404511Z'
+  generation: 7
+  labels:
+    cloud.googleapis.com/location: us-central1
+    commit-sha: 29e938bf0d8d2bf9e5ff1a2f076a967a80f33b9a
+    gcb-build-id: 74d2e5d9-9dee-49cd-a6e8-a57f7349108c
+    gcb-trigger-id: fe9f9292-6934-4a34-9037-c5a679a23a20
+    gcb-trigger-region: global
+    managed-by: gcp-cloud-build-deploy-cloud-run
+  name: timezone-toolkit
+  namespace: '197777232624'
+  resourceVersion: AAY7zlqYVY0
+  selfLink: /apis/serving.knative.dev/v1/namespaces/197777232624/services/timezone-toolkit
+  uid: bf1e9d15-16aa-43e8-bf08-105318e02f01
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '100'
+        run.googleapis.com/client-name: gcloud
+        run.googleapis.com/client-version: 533.0.0
+        run.googleapis.com/startup-cpu-boost: 'true'
+      labels:
+        client.knative.dev/nonce: ixhuytxrqq
+        commit-sha: 29e938bf0d8d2bf9e5ff1a2f076a967a80f33b9a
+        gcb-build-id: 74d2e5d9-9dee-49cd-a6e8-a57f7349108c
+        gcb-trigger-id: fe9f9292-6934-4a34-9037-c5a679a23a20
+        gcb-trigger-region: global
+        managed-by: gcp-cloud-build-deploy-cloud-run
+        run.googleapis.com/startupProbeType: Default
+    spec:
+      containerConcurrency: 30
+      containers:
+      - env:
+        - name: NODE_ENV
+          value: production
+        - name: MCP_SERVER_PATH
+          value: /app/dist/index.js
+        - name: LOG_LEVEL
+          value: info
+        image: us-central1-docker.pkg.dev/functions-440815/cloud-run-source-deploy/timezone-toolkit/timezone-toolkit:29e938bf0d8d2bf9e5ff1a2f076a967a80f33b9a
+        name: placeholder-1
+        ports:
+        - containerPort: 8080
+          name: http1
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        startupProbe:
+          failureThreshold: 1
+          periodSeconds: 240
+          tcpSocket:
+            port: 8080
+          timeoutSeconds: 240
+      serviceAccountName: 197777232624-compute@developer.gserviceaccount.com
+      timeoutSeconds: 20
+  traffic:
+  - latestRevision: true
+    percent: 100
+status:
+  address:
+    url: https://timezone-toolkit-qb3g74n64a-uc.a.run.app
+  conditions:
+  - lastTransitionTime: '2025-08-07T22:55:29.498509Z'
+    status: 'True'
+    type: Ready
+  - lastTransitionTime: '2025-08-07T22:55:28.244154Z'
+    status: 'True'
+    type: ConfigurationsReady
+  - lastTransitionTime: '2025-08-07T22:55:29.467301Z'
+    status: 'True'
+    type: RoutesReady
+  latestCreatedRevisionName: timezone-toolkit-00006-8nj
+  latestReadyRevisionName: timezone-toolkit-00006-8nj
+  observedGeneration: 7
+  traffic:
+  - latestRevision: true
+    percent: 100
+    revisionName: timezone-toolkit-00006-8nj
+  url: https://timezone-toolkit-qb3g74n64a-uc.a.run.app

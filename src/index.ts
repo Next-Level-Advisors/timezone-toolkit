@@ -48,7 +48,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             time: { type: "string", description: "Time to convert (ISO string or natural language). Defaults to current time if not provided." },
             fromTimezone: { type: "string", description: "Source IANA timezone name (e.g., 'America/New_York')" },
             toTimezone: { type: "string", description: "Target IANA timezone name (e.g., 'Europe/London')" },
-            format: { type: "string", enum: ["short", "medium", "full", "drive", "appointment"], description: "Output format. Defaults to 'medium'" }
+            format: { type: "string", enum: ["short", "medium", "full", "drive", "appointment", "data"], description: "Output format. Defaults to 'medium'" }
           },
           required: ["fromTimezone", "toTimezone"]
         }
@@ -60,7 +60,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           type: "object",
           properties: {
             timezone: { type: "string", description: "IANA timezone name (e.g., 'Asia/Tokyo'). Defaults to system timezone if not provided." },
-            format: { type: "string", enum: ["short", "medium", "full", "drive"], description: "Output format. Defaults to 'medium'" }
+            format: { type: "string", enum: ["short", "medium", "full", "drive", "data"], description: "Output format. Defaults to 'medium'" }
           },
           required: ["timezone"]
         }
@@ -147,7 +147,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           properties: {
             date: { type: "string", description: "Date to format (ISO string or natural language). Defaults to current date." },
             timezone: { type: "string", description: "IANA timezone name (e.g., 'America/New_York'). Defaults to system timezone." },
-            format: { type: "string", enum: ["short", "medium", "full", "iso", "relative", "drive"], description: "Output format. Defaults to 'medium'" },
+            format: { type: "string", enum: ["short", "medium", "full", "iso", "relative", "drive", "data"], description: "Output format. Defaults to 'medium'" },
             locale: { type: "string", description: "Locale for formatting (e.g., 'en-US', 'fr', 'de'). Defaults to 'en-US'." }
           },
           required: ["date"]
@@ -205,7 +205,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     const result = {
       originalTime: dateTime.toISO() || '',
-      convertedTime: formatDateTime(convertedDateTime, format as 'short' | 'medium' | 'full' | 'drive' | 'appointment'),
+      convertedTime: formatDateTime(convertedDateTime, format as 'short' | 'medium' | 'full' | 'drive' | 'appointment' | 'data'),
       fromTimezone,
       toTimezone,
       timeDifference

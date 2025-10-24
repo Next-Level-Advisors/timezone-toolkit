@@ -7,7 +7,7 @@ export interface TimeConversionRequest {
   time?: string;  // ISO string or natural language time, defaults to current time if not provided
   fromTimezone: string;  // IANA timezone name
   toTimezone: string;  // IANA timezone name
-  format?: 'short' | 'medium' | 'full';  // Output format, defaults to 'medium'
+  format?: 'short' | 'medium' | 'full' | 'drive' | 'appointment' | 'data';  // Output format, defaults to 'medium'
 }
 
 export interface TimeConversionResponse {
@@ -20,7 +20,7 @@ export interface TimeConversionResponse {
 
 export interface CurrentTimeRequest {
   timezone: string;  // IANA timezone name
-  format?: 'short' | 'medium' | 'full';  // Output format, defaults to 'medium'
+  format?: 'short' | 'medium' | 'full' | 'drive' | 'data';  // Output format, defaults to 'medium'
 }
 
 export interface CurrentTimeResponse {
