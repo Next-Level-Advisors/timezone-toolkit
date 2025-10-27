@@ -16,10 +16,20 @@ export function parseTime(timeStr?: string, timezone: string = 'UTC'): DateTime 
     return DateTime.now().setZone(timezone);
   }
 
-  // Try parsing as ISO
-  let dt = DateTime.fromISO(timeStr, { zone: timezone });
+  // Try parsing as ISO first without zone (in case the string already contains timezone info)
+  let dt = DateTime.fromISO(timeStr);
   if (dt.isValid) {
-    return dt;
+    // If the parsed datetime has a timezone offset, keep it as-is
+    // The string itself specifies the timezone, so we respect it
+    if (dt.isOffsetFixed) {
+      return dt;
+    } else {
+      // String didn't have timezone info, parse with the zone parameter
+      dt = DateTime.fromISO(timeStr, { zone: timezone });
+      if (dt.isValid) {
+        return dt;
+      }
+    }
   }
 
   // Try parsing as natural language
@@ -38,22 +48,29 @@ export function parseTime(timeStr?: string, timezone: string = 'UTC'): DateTime 
 
   // Try common date and datetime formats
   const formats = [
-    'yyyy-MM-dd HH:mm:ss',  // Drive format (YYYY-MM-DD HH:MM:SS)
-    'yyyy-MM-dd HH:mm',     // Date with time (no seconds)
-    'yyyy-MM-dd',           // ISO date only
-    'MM/dd/yyyy HH:mm:ss',  // US format with time
-    'MM/dd/yyyy HH:mm',     // US format with time (no seconds)
-    'MM/dd/yyyy',           // US date only
-    'dd/MM/yyyy HH:mm:ss',  // European format with time
-    'dd/MM/yyyy HH:mm',     // European format with time (no seconds)
-    'dd/MM/yyyy',           // European date only
-    'yyyy/MM/dd',           // Alternative ISO format
-    'MMMM d, yyyy',         // Long date format
-    'd MMMM yyyy',          // Alternative long format
+    'yyyy-MM-dd HH:mm:ssZZ',  // Data format with timezone offset (YYYY-MM-DD HH:MM:SS±HH:MM)
+    'yyyy-MM-dd HH:mm:ss',    // Drive format (YYYY-MM-DD HH:MM:SS)
+    'yyyy-MM-dd HH:mmZZ',     // Date with time and timezone (no seconds)
+    'yyyy-MM-dd HH:mm',       // Date with time (no seconds)
+    'yyyy-MM-dd',             // ISO date only
+    'MM/dd/yyyy HH:mm:ss',    // US format with time
+    'MM/dd/yyyy HH:mm',       // US format with time (no seconds)
+    'MM/dd/yyyy',             // US date only
+    'dd/MM/yyyy HH:mm:ss',    // European format with time
+    'dd/MM/yyyy HH:mm',       // European format with time (no seconds)
+    'dd/MM/yyyy',             // European date only
+    'yyyy/MM/dd',             // Alternative ISO format
+    'MMMM d, yyyy',           // Long date format
+    'd MMMM yyyy',            // Alternative long format
   ];
 
   for (const format of formats) {
-    dt = DateTime.fromFormat(timeStr, format, { zone: timezone });
+    // If the format includes timezone offset (ZZ), don't override with zone parameter
+    if (format.includes('ZZ')) {
+      dt = DateTime.fromFormat(timeStr, format);
+    } else {
+      dt = DateTime.fromFormat(timeStr, format, { zone: timezone });
+    }
     if (dt.isValid) {
       return dt;
     }

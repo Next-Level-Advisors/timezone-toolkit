@@ -81,5 +81,16 @@
 2. **Rate Limiting Error**: Express trust proxy misconfiguration in Cloud Run
    - **Error**: X-Forwarded-For header warning
    - **Fix**: Added `app.set('trust proxy', true)` for Cloud Run compatibility
+3. **Data Format Parsing Error**: API couldn't parse "data" format input with timezone offset (YYYY-MM-DD HH:MM:SS±HH:MM)
+   - **Error**: Converting input "2025-10-31 22:30:00+00:00" resulted in current date/time (2025-10-27T11:37:55.344-06:00) instead of specified date
+   - **Root Cause**: 
+     - parseTime function couldn't parse ISO format with space separator and timezone offset
+     - DateTime.fromISO() with zone parameter caused conflict when time string already contained timezone info
+     - Format "yyyy-MM-dd HH:mm:ssZZ" was not in the list of recognized formats
+   - **Fix**: 
+     - Modified parseTime to parse ISO strings without zone parameter first, then check if timezone is fixed
+     - Added "yyyy-MM-dd HH:mm:ssZZ" and "yyyy-MM-dd HH:mmZZ" formats to the format list
+     - Skip zone parameter when parsing formats that include timezone offset (ZZ)
+   - **Test Results**: Successfully parses "2025-10-31 22:30:00+00:00" as October 31, 2025 (not current date)
 
-**Next Steps**: User will test the updated parsing and rate limiting fixes. 
+**Next Steps**: User will test the updated data format parsing in production. 
