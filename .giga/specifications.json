@@ -1,0 +1,22 @@
+[
+  {
+    "fileName": "main-overview.mdc",
+    "description": "Complete system overview documenting the time management system architecture, component relationships, and high-level business rules for international scheduling"
+  },
+  {
+    "fileName": "time-calculation-algorithms.mdc",
+    "description": "Detailed documentation of core time-related algorithms including timezone conversion, working hours overlap detection, and sunrise/sunset calculations with business rule implementations"
+  },
+  {
+    "fileName": "scheduling-engine-logic.mdc",
+    "description": "Comprehensive documentation of the meeting scheduler engine, including the slot optimization algorithm, scoring system, and participant availability handling"
+  },
+  {
+    "fileName": "holiday-system-models.mdc",
+    "description": "Detailed documentation of the holiday management system's data models, calendar system implementations, and recurring pattern recognition algorithms"
+  },
+  {
+    "fileName": "data-flow-diagrams.mdc",
+    "description": "Documentation of data flow between major system components, including timezone services, holiday management, and meeting scheduler interactions"
+  }
+]

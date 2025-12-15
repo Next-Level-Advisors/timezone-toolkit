@@ -35,6 +35,9 @@ export async function convertTime(time: string | undefined, fromTimezone: string
   // Parse the input time
   const dateTime = parseTime(time, fromTimezone);
 
+  // Ensure the original time is shown in the fromTimezone for consistency
+  const originalInFromZone = dateTime.setZone(fromTimezone);
+
   // Convert to the target timezone
   const convertedDateTime = dateTime.setZone(toTimezone);
 
@@ -42,7 +45,7 @@ export async function convertTime(time: string | undefined, fromTimezone: string
   const timeDifference = getTimezoneDifference(fromTimezone, toTimezone);
 
   const result = {
-    originalTime: dateTime.toISO() || '',
+    originalTime: originalInFromZone.toISO() || '',
     convertedTime: formatDateTime(convertedDateTime, format),
     fromTimezone,
     toTimezone,
