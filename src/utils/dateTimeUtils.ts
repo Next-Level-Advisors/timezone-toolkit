@@ -48,20 +48,24 @@ export function parseTime(timeStr?: string, timezone: string = 'UTC'): DateTime 
 
   // Try common date and datetime formats
   const formats = [
-    'yyyy-MM-dd HH:mm:ssZZ',  // Data format with timezone offset (YYYY-MM-DD HH:MM:SS±HH:MM)
-    'yyyy-MM-dd HH:mm:ss',    // Drive format (YYYY-MM-DD HH:MM:SS)
-    'yyyy-MM-dd HH:mmZZ',     // Date with time and timezone (no seconds)
-    'yyyy-MM-dd HH:mm',       // Date with time (no seconds)
-    'yyyy-MM-dd',             // ISO date only
-    'MM/dd/yyyy HH:mm:ss',    // US format with time
-    'MM/dd/yyyy HH:mm',       // US format with time (no seconds)
-    'MM/dd/yyyy',             // US date only
-    'dd/MM/yyyy HH:mm:ss',    // European format with time
-    'dd/MM/yyyy HH:mm',       // European format with time (no seconds)
-    'dd/MM/yyyy',             // European date only
-    'yyyy/MM/dd',             // Alternative ISO format
-    'MMMM d, yyyy',           // Long date format
-    'd MMMM yyyy',            // Alternative long format
+    'yyyy-MM-dd hh:mm a ZZZ',  // Date with 12-hour time, AM/PM, and timezone offset (2025-12-23 02:30 PM -0700)
+    'yyyy-MM-dd hh:mm a ZZ',   // Date with 12-hour time, AM/PM, and timezone offset (2025-12-23 02:30 PM -07:00)
+    'yyyy-MM-dd HH:mm:ssZZZ',  // Data format with timezone offset (YYYY-MM-DD HH:MM:SS-0700)
+    'yyyy-MM-dd HH:mm:ssZZ',   // Data format with timezone offset (YYYY-MM-DD HH:MM:SS±HH:MM)
+    'yyyy-MM-dd HH:mm:ss',     // Drive format (YYYY-MM-DD HH:MM:SS)
+    'yyyy-MM-dd HH:mmZZZ',     // Date with time and timezone (no seconds, -0700 format)
+    'yyyy-MM-dd HH:mmZZ',      // Date with time and timezone (no seconds)
+    'yyyy-MM-dd HH:mm',        // Date with time (no seconds)
+    'yyyy-MM-dd',              // ISO date only
+    'MM/dd/yyyy HH:mm:ss',     // US format with time
+    'MM/dd/yyyy HH:mm',        // US format with time (no seconds)
+    'MM/dd/yyyy',              // US date only
+    'dd/MM/yyyy HH:mm:ss',     // European format with time
+    'dd/MM/yyyy HH:mm',        // European format with time (no seconds)
+    'dd/MM/yyyy',              // European date only
+    'yyyy/MM/dd',              // Alternative ISO format
+    'MMMM d, yyyy',            // Long date format
+    'd MMMM yyyy',             // Alternative long format
   ];
 
   for (const format of formats) {
