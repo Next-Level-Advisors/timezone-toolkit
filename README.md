@@ -300,7 +300,7 @@ Converts a time from one timezone to another.
   - `'full'` - Example: `Monday, December 25, 2023, 2:30:00 PM Eastern Standard Time`
   - `'drive'` - Example: `2023-12-25 14:30:00` (for Google Drive/HighLevel)
   - `'appointment'` - Example: `2023-12-25T14:30:00.000-05:00` (ISO 8601 format)
-  - `'data'` - Example: `2023-12-25 14:30:00-05:00` (with timezone offset)
+  - `'data'` - Example: `2023-12-25 14:30` (24-hour format, no timezone - for NocoDB)
 
 **Example:**
 ```json
