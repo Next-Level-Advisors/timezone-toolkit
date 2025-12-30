@@ -255,6 +255,8 @@ gcloud run deploy timezone-toolkit --image gcr.io/functions-440815/timezone-tool
 
 ### API Endpoints
 
+- `Base` - https://timezone-toolkit-197777232624.us-central1.run.app
+
 - `GET /health` - Health check endpoint (Cloud Run monitoring)
 - `GET /api/tools` - List all available tools
 - `POST /api/convert-time` - Convert time between timezones
