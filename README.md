@@ -294,7 +294,13 @@ Converts a time from one timezone to another.
 - `time` (optional): Time to convert (ISO string or natural language). Defaults to current time if not provided.
 - `fromTimezone`: Source IANA timezone name (e.g., 'America/New_York')
 - `toTimezone`: Target IANA timezone name (e.g., 'Europe/London')
-- `format` (optional): Output format ('short', 'medium', 'full', 'drive', 'appointment'). Defaults to 'medium'
+- `format` (optional): Output format. Defaults to 'medium'
+  - `'short'` - Example: `12/25/2023, 2:30 PM`
+  - `'medium'` - Example: `Dec 25, 2023, 2:30:00 PM`
+  - `'full'` - Example: `Monday, December 25, 2023, 2:30:00 PM Eastern Standard Time`
+  - `'drive'` - Example: `2023-12-25 14:30:00` (for Google Drive/HighLevel)
+  - `'appointment'` - Example: `2023-12-25T14:30:00.000-05:00` (ISO 8601 format)
+  - `'data'` - Example: `2023-12-25 14:30:00-05:00` (with timezone offset)
 
 **Example:**
 ```json
@@ -323,7 +329,12 @@ Gets the current time in a specified timezone.
 
 **Parameters:**
 - `timezone`: IANA timezone name (e.g., 'Asia/Tokyo')
-- `format` (optional): Output format ('short', 'medium', 'full', 'drive'). Defaults to 'medium'
+- `format` (optional): Output format. Defaults to 'medium'
+  - `'short'` - Example: `3/25/2025, 10:15 PM`
+  - `'medium'` - Example: `Mar 25, 2025, 10:15:30 PM`
+  - `'full'` - Example: `Monday, March 25, 2025, 10:15:30 PM British Summer Time`
+  - `'drive'` - Example: `2025-03-25 22:15:30` (for Google Drive/HighLevel)
+  - `'data'` - Example: `2025-03-25 22:15:30+01:00` (with timezone offset)
 
 **Example:**
 ```json
@@ -562,7 +573,14 @@ Formats a date in various styles.
 **Parameters:**
 - `date`: Date to format (ISO string or natural language). Defaults to current date.
 - `timezone` (optional): IANA timezone name (e.g., 'America/New_York'). Defaults to system timezone.
-- `format` (optional): Output format ('short', 'medium', 'full', 'iso', 'relative', 'drive'). Defaults to 'medium'.
+- `format` (optional): Output format. Defaults to 'medium'.
+  - `'short'` - Example: `12/25/2023, 12:00 AM`
+  - `'medium'` - Example: `Dec 25, 2023, 12:00:00 AM`
+  - `'full'` - Example: `Monday, December 25, 2023, 12:00:00 AM Central European Standard Time`
+  - `'iso'` - Example: `2023-12-25T00:00:00.000+01:00` (ISO 8601 format)
+  - `'relative'` - Example: `In 5 days` or `2 hours ago` (relative to current time)
+  - `'drive'` - Example: `2023-12-25 00:00:00` (for Google Drive/HighLevel)
+  - `'data'` - Example: `2023-12-25 00:00:00+01:00` (with timezone offset)
 - `locale` (optional): Locale for formatting (e.g., 'en-US', 'fr', 'de'). Defaults to 'en-US'.
 
 **Example:**
